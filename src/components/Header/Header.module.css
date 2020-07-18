@@ -1,0 +1,12 @@
+.header {
+    height: 40px;
+    background-color: rgb(35, 121, 233);
+}
+.header a {
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #fff;
+    padding: 10px 30px;
+    border-right: 1px solid white;
+    line-height: 40px;
+}
