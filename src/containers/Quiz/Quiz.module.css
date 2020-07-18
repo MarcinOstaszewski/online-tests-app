@@ -1,0 +1,22 @@
+.Quiz {
+    margin: 80px;
+    padding: 20px 20px 100px 20px;
+    background-color: #ffffff22;
+}
+.question {
+    font-size: 32px;
+
+    border-bottom: 1px solid #ffffffef;
+    padding: 5px 10px;
+    margin-bottom: 15px;
+}
+.answerOption {
+    border-bottom: 1px solid #ffffff00;
+    font-size: 18px;
+    padding: 15px 0px;
+    cursor: pointer;
+}
+.answerOption:hover {
+    border-bottom: 1px solid #ffffff22;
+    background-color: #ffffff08;
+}
