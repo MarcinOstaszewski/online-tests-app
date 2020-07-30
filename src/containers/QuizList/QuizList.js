@@ -27,7 +27,6 @@ class QuizList extends Component {
                     to={{
                         pathname: `solve-quiz/`,
                         hash: `${q.replace(/ /g,'-')}`,
-                        search: "3",
                     }} 
                 key={i}
                 // onClick={this.props.chooseQuiz}
