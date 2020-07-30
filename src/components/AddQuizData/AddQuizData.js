@@ -1,6 +1,6 @@
 import React from 'react';
 import { fbDB } from '../../firebase';
-import { basicSample01 } from '../../consts'
+import { quiz0001 } from '../../consts'
 
 const addQuizToDB = (quizData) => {
     const quizName = quizData.quizName
@@ -10,9 +10,9 @@ const addQuizToDB = (quizData) => {
 
 const AddQuizData = () => {
     
-    addQuizToDB(basicSample01)
+    addQuizToDB(quiz0001)
 
-    return ( <div>ADD QUIZ</div> );
+    return ( <div style={{cursor: 'pointer'}}>ADD QUIZ</div> );
 }
  
 export default AddQuizData;
