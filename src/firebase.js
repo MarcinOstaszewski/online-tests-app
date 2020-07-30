@@ -19,6 +19,6 @@ const googleAuth = new auth.GoogleAuthProvider();
 
 export {
     fbDB,
+    firebase,
     googleAuth,
-    
 };
