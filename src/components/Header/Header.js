@@ -1,18 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import style from  './Header.module.css'
 
 const Header = (props) => {
     return ( 
         <header className={style.header}>
-            <Link to="/">List of quizes</Link>
-            <Link to="/add-quiz">Add your own quiz</Link>
-            {/* <Link to={{
+            <NavLink to="/">List of quizes</NavLink>
+            <NavLink to="/add-quiz">Add your own quiz</NavLink>
+            <NavLink to="/login">Login</NavLink>
+            {/* <NavLink to={{
             pathname:'/solve-quiz',
             search:'?quizName=""',
             hash:'#someName'  
-            }}>List of quizes</Link> */}
+            }}>List of quizes</NavLink> */}
         </header>
     );
 }
