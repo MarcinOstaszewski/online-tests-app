@@ -1,0 +1,10 @@
+.login {
+    margin: 20px;
+}
+.login div {
+    padding: 10px 30px;
+    border-radius: 10px;
+    background-color: rgb(27, 108, 214);
+    display: inline-block;
+    cursor: pointer;
+}
