@@ -1,26 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
+
+import Header from './components/Header/Header';
+import QuizList from './containers/QuizList/QuizList';
+import Quiz from './containers/Quiz/Quiz';
+import Login from './components/Login/Login';
+import AddQuizData from './components/AddQuizData/AddQuizData';
+
+import { BrowserRouter, Route} from 'react-router-dom';
+
+
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+
+  // state = {
+  //   loggedIn: false
+  // }
+
+  changeLoginStatus = (user) => {
+    console.log(user)
+    // this.setState({
+    //   loggedIn: user ? false : true
+    // })
+  }
+
+  render (){
+    return (
+      <div className="App">
+        <React.StrictMode>
+          <BrowserRouter>
+            <Header displayName={this}/>
+            <Route path="/add-quiz" component={AddQuizData} />
+            <Route path="/solve-quiz" component={Quiz} />
+            <Route path="/login" component={() => <Login handleLoginStatus={this.changeLoginStatus}/>} />
+            <Route path="/" exact component={QuizList} />
+          </BrowserRouter>
+        </React.StrictMode>
+      </div>
+    );
+  }
 }
 
 export default App;
