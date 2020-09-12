@@ -1,7 +1,10 @@
+:root {
+    --delay-time: 0.75s;
+}
 .Quiz {
-    margin: 80px;
+    margin: 20px 80px;
     padding: 5px 20px 100px 20px;
-    background-color: #ffffff22;
+    /* background-color: #ffffff22; */
 }
 .quizName {
     text-align: center;
@@ -26,25 +29,83 @@
     padding: 5px 10px;
     margin-bottom: 15px;
 }
+
+.slideAway {
+    transition-timing-function: ease-out;
+    transition: var(--delay-time);
+    color: transparent;
+    margin-top: 60px;
+}
+.question.slideAway {
+    transition-timing-function: ease-out;
+    transition: var(--delay-time);
+    border-bottom: 1px solid transparent;
+    margin-top: 0px;
+}
 .answerNumber {
     font-size: 12px;
     margin-right: 10px;
 }
 .answerOption {
+    transition: 0.15s;
     border-bottom: 1px solid #ffffff00;
     font-size: 18px;
-    padding: 15px 0px;
+    padding: 15px 10px;
     cursor: pointer;
     font-weight: 400;
 }
 .answerOption:hover {
-    border-bottom: 1px solid #ffffff22;
-    background-color: #ffffff08;
+    /* border-bottom: 1px solid #ffffff22; */
+    transition: 0.1s;
+    background-color: #ffffff12;
+}
+.answerOption.wrongAnswer {
+    background-color: #ff555555;
+}
+.answerOption.rightAnswer {
+    background-color: #55ff5555;
+    color: transparent;
+}
+.answerOption.rightAnswer:hover {
+    background-color: #55ff5577;
+}
+.answerOption.slideAway {
+    transition: var(--delay-time);
+    background-color: transparent;
+    margin-top: 0px;
+}
+.answerOption.rightAnswer.slideAway {
+    transition: var(--delay-time);
+    margin-top: 0px;
+}
+.answerOption.wrongAnswer.slideAway {
+    transition: var(--delay-time);
+    background-color: transparent;
+    margin-top: 0px;
 }
 .resultLen {
     display: block;
-    border-radius: 10px;
-    padding: 10px;
-    background-color: #2379e9;
-    margin: 10px;
+    border-radius: 15px;
+    padding: 20px;
+    background-color: #2379e925;
+}
+.resultLen div {
+    padding: 7px 0px;
+}
+.bigText {
+    font-size: 20px;
+    font-weight: 500;
+}
+span.bigText {
+    border-bottom: 1px solid #ffffff88;
+    padding-bottom: 2px;
+}
+.bigText span {
+    font-size: 30px;
+    font-weight: 700;
+}
+.resultText {
+    font-size: 36px;
+    font-weight: 700;
+    text-align: center;
 }

@@ -10,41 +10,58 @@ class Quiz extends Component {
         quizName: this.props.location.hash.replace('#', '').replace(/-/g, ' '),
         qNum: 1,
         quizData: null,
+        quizSummary: null,
         questionText: null,
         answerOptions: null,
         correctAnswer: null,
+        rightAnswer: null,
+        wrongAnswers: [],
+        slideAway: ""
     }
-    results = {}
+    results = {};
 
-    handleOptionClicked = (...args) => {
-        let number = args[0]
+    handleOptionClicked = (number) => {
         if (!this.results[this.state.qNum]) {
             this.results[this.state.qNum] = [];
         } else {
             this.results[this.state.qNum].push(number)
         }
         if (number === this.state.correctAnswer) {
-            this.updateQuestionData(this.state.quizData, 1)
+            this.setState({
+                rightAnswer: number,
+                slideAway: "slideAway"
+            })
+            const timeDelay = setTimeout(() => {
+                this.setState({
+                    wrongAnswers: [],
+                    rightAnswer: null,
+                    slideAway: ""
+                })
+                this.updateQuestionData(this.state.quizData, this.state.qNum + 1);
+                return () => clearTimeout(timeDelay);
+            }, 850)
         } else {
-            console.log("TU TRZEBA JAKOŚ ODZNACZAĆ ŹLE WYBRANE ODPOWIEDZI")
+            let wrongAnswers = [...this.state.wrongAnswers]
+            wrongAnswers.push(number);
+            this.setState({
+                wrongAnswers: wrongAnswers
+            })
         }
     }
 
-    updateQuestionData = (data, plusNum) => {
-        console.log(this.results)
-        if (data[`q${this.state.qNum + plusNum}`]) {
-            const q = data[`q${this.state.qNum + plusNum}`];
+    updateQuestionData = (data, currQNum) => {
+        if (data[`q${currQNum}`]) {
+            const q = data[`q${currQNum}`];
             this.setState({
                 questionText: q.questionText,
                 answerOptions: q.answerOptions,
                 correctAnswer: q.correctAnswer,
-                qNum: this.state.qNum + plusNum,
+                qNum: currQNum,
             })
         } else {
             this.setState({
                 quizOn: false
             })
-            console.log('KONIEC QUIZU !!!')
         }
     }
 
@@ -55,18 +72,38 @@ class Quiz extends Component {
             console.log(sn)
             this.setState({
                 quizData: sn.quizData,
-                summary: sn.summary.summaryText,
-                resultMessages: sn.summary.resultMessages,
+                quizSummary: sn.summary,
                 description: sn.quizDescription
             })
-            this.updateQuestionData(sn.quizData, 0)
+            this.updateQuestionData(sn.quizData, this.state.qNum)
         })
     }
 
     countFinalResults = () => {
-        return Object.keys(this.results).map(key => 
-            <div className={style.resultLen}>Pytanie {key}. Poprawna odpowiedź za {this.results[key].length + 1}. razem.</div> 
-        )
+        let finalResult = 0;
+        let maximumPoints = 0;
+        let results = Object.keys(this.results).map(key => {
+            let maxPoints = Object.keys(this.state.quizData[`q${key}`].answerOptions).length;
+            maximumPoints += maxPoints;
+            let points = maxPoints - this.results[key].length;
+            finalResult += points;
+            return <div key={key}>pyt. {key}. - <span className={style.bigText}>{points} pkt.</span></div> 
+        })
+        let percentageResult = Math.floor(finalResult / maximumPoints * 100)
+        let resultMessage;
+        Object.keys(this.state.quizSummary.resultMessages).forEach( grade => {
+            console.log(this.state.quizSummary.resultMessages[grade]);
+            if (grade < percentageResult) {
+                resultMessage = this.state.quizSummary.resultMessages[grade];
+            } 
+            return grade > percentageResult;
+        })
+        console.log(this.state.quizSummary)
+        return ( <div className={style.resultLen}>
+            <div className={style.resultText}>{resultMessage}</div>
+            <span className={style.bigText}>Zdobyte punkty: <span>{finalResult}</span> / {maximumPoints} max. czyli {percentageResult}%</span>
+            {results}
+        </div>)
     }
 
     componentDidMount() {
@@ -89,17 +126,19 @@ class Quiz extends Component {
 
             name = <div className={style.quizName}>{this.state.quizName}</div>;
             description = <div className={style.description}>{this.state.description}</div>;
-            topInfo =   <div className={style.question}>
+            topInfo =   <div className={[style.question, style[this.state.slideAway]].join(" ")}>
                             <span className={style.questionNumber}>{this.state.qNum}.</span> {this.state.questionText}
                         </div>
 
             if (this.state.questionText != null && this.state.answerOptions != null) {
                 bottomInfo = Object.keys(this.state.answerOptions).map( (key, i) => {
+                    let rightOrWrong = this.state.rightAnswer === key ? "rightAnswer" : "";
+                    rightOrWrong = this.state.wrongAnswers.includes(key) ? "wrongAnswer" : rightOrWrong;
                     return (
-                        <div key={i} 
-                            onClick={this.handleOptionClicked.bind(this, key)}
+                        <div key={i}
+                            onClick={() => this.handleOptionClicked(key)}
                             answer={key}
-                            className={style.answerOption}>
+                            className={[style.answerOption, style[rightOrWrong], style[this.state.slideAway]].join(" ")} >
                             <span className={style.answerNumber}>{i+1}.</span> {this.state.answerOptions[key]}
                         </div>
                     )
@@ -109,7 +148,7 @@ class Quiz extends Component {
         } else {
             name = ''; 
             description = '';
-            topInfo =  <div className={style.question}>{this.state.summary}</div>
+            topInfo =  <div className={style.question}>{this.state.quizSummary.summaryText}</div>
             bottomInfo = this.countFinalResults()
         }
 
@@ -117,9 +156,10 @@ class Quiz extends Component {
             <div className={style.Quiz}>
                 {name}
                 {description}
-                                
-                {topInfo}
-                {bottomInfo}
+                <div className={style[this.state.slideAway]}>
+                    {topInfo}
+                    {bottomInfo}
+                </div>
             </div> 
         );
     }
