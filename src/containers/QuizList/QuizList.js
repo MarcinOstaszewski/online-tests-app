@@ -24,19 +24,19 @@ class QuizList extends Component {
         if (this.state.quizes) {
             quizes =  this.state.quizes.map( (q, i) => {
             return <Link
-                    to={{
-                        pathname: `solve-quiz/`,
-                        hash: `${q.replace(/ /g,'-')}`,
-                    }} 
+                to={{
+                    pathname: `solve-quiz/`,
+                    hash: `${q.replace(/ /g,'-')}`,
+                }} 
                 key={i}
                 // onClick={this.props.chooseQuiz}
                 
-                >{q}</Link>
+                >Quiz {i + 1} - {q}</Link>
                     } )
         } 
 
         return ( <div className={style.listElement}>
-            <h1>Choose a quiz for you</h1>
+            <h1>Który quiz chciałbyś rozwiązać?</h1>
             <div >
                 {quizes}
             </div>
