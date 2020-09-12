@@ -1,19 +1,20 @@
 const quiz0001 = {
     quizName: "Co wiesz o Celice?",
     quizDescription: "Ten test sprawdzi Twoją wiedzę na temat historii rozwoju Toyoty Celiki.",
-    quizData: {
+    quizData: { 
         q1: {
-            questionText: "Kiedy zbudowano pierwszą Celicę?",
+            questionText: "Kiedy pojawiła się pierwsza generacja Celiki?",
+            questionImage: "https://en.wikipedia.org/wiki/Toyota_Celica#/media/File:1970_Toyota_Celica_02.jpg",
             answerOptions: {
-                a1: "W roku 1444.",
-                a2: "12 kwietnia.",
-                a3: "O 12:33.",
-                a4: "Po podwieczorku.",
+                a1: "W styczniu 1977.",
+                a2: "W grudniu 1970.",
+                a3: "W maju 1980.",
+                a4: "W sierpniu 1967.",
             },
             correctAnswer: 'a2'
         },
         q2: {
-            questionText: "W której generacji Celiki pojawiła się odmiara Celica Supra?",
+            questionText: "W której generacji Celiki pojawiła się odmiana Celica Supra?",
             answerOptions: {
                 a1: "I.",
                 a2: "XXI.",
@@ -23,34 +24,34 @@ const quiz0001 = {
             correctAnswer: 'a3'
         },
         q3: {
-            questionText: "Ile kół ma Celica?",
+            questionText: "Ile kół powinna mieć Celica?",
             answerOptions: {
                 a1: "4",
                 a2: "2",
                 a3: "8",
-                a4: "Wszystkie!"
+                a4: "6"
             },
             correctAnswer: 'a1'
         },
         q4: {
-            questionText: "Którędy Celica?",
+            questionText: "Jaka jest pojemność silnika Celiki I generacji?",
             answerOptions: {
-                a1: "Nie znam się, ja tu tylko sprzątam.",
-                a2: "Ja nie brałem!",
-                a3: "Ale o ssso chozzi?",
-                a4: "Nie mamy pańskiej Celiki i co nam pan zrobi?!",
+                a1: "2200 cc.",
+                a2: "2000 cc",
+                a3: "1800 cc",
+                a4: "1600 cc",
             },
             correctAnswer: 'a4'
         }
     },
     summary: {
-        summaryText: "Koniec kłiza nareszcie!",
+        summaryText: "To już koniec! Oto Twój wynik.",
         resultMessages: {
-            0: "Tragedia baranie!",
+            0: "Niestety, tragedia!",
             25: "Ledwo-ledwo.",
-            50: "Coś tam wiesz...",
+            50: "Coś tam wiesz.",
             75: "Nie najgorzej!",
-            99: "REWELACJA ! ! !"
+            99: "REWELACJA!!!"
         }
 
     }
