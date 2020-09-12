@@ -126,7 +126,7 @@ class Quiz extends Component {
 
             name = <div className={style.quizName}>{this.state.quizName}</div>;
             description = <div className={style.description}>{this.state.description}</div>;
-            topInfo =   <div className={[style.question, style[this.state.slideAway]].join(" ")}>
+            topInfo =   <div className={style.question}>
                             <span className={style.questionNumber}>{this.state.qNum}.</span> {this.state.questionText}
                         </div>
 
@@ -138,7 +138,7 @@ class Quiz extends Component {
                         <div key={i}
                             onClick={() => this.handleOptionClicked(key)}
                             answer={key}
-                            className={[style.answerOption, style[rightOrWrong], style[this.state.slideAway]].join(" ")} >
+                            className={[style.answerOption, style[rightOrWrong]].join(" ")} >
                             <span className={style.answerNumber}>{i+1}.</span> {this.state.answerOptions[key]}
                         </div>
                     )

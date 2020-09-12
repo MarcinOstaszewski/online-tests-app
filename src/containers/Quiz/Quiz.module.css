@@ -4,7 +4,6 @@
 .Quiz {
     margin: 20px 80px;
     padding: 5px 20px 100px 20px;
-    /* background-color: #ffffff22; */
 }
 .quizName {
     text-align: center;
@@ -29,17 +28,17 @@
     padding: 5px 10px;
     margin-bottom: 15px;
 }
-
 .slideAway {
     transition-timing-function: ease-out;
     transition: var(--delay-time);
     color: transparent;
     margin-top: 60px;
 }
-.question.slideAway {
+.slideAway .question {
     transition-timing-function: ease-out;
     transition: var(--delay-time);
     border-bottom: 1px solid transparent;
+    color: transparent;
     margin-top: 0px;
 }
 .answerNumber {
@@ -55,7 +54,6 @@
     font-weight: 400;
 }
 .answerOption:hover {
-    /* border-bottom: 1px solid #ffffff22; */
     transition: 0.1s;
     background-color: #ffffff12;
 }
@@ -69,18 +67,10 @@
 .answerOption.rightAnswer:hover {
     background-color: #55ff5577;
 }
-.answerOption.slideAway {
+.slideAway .answerOption {
     transition: var(--delay-time);
     background-color: transparent;
-    margin-top: 0px;
-}
-.answerOption.rightAnswer.slideAway {
-    transition: var(--delay-time);
-    margin-top: 0px;
-}
-.answerOption.wrongAnswer.slideAway {
-    transition: var(--delay-time);
-    background-color: transparent;
+    color: transparent;
     margin-top: 0px;
 }
 .resultLen {
