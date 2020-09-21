@@ -2,21 +2,27 @@
     --delay-time: 0.75s;
 }
 .Quiz {
-    margin: 20px 80px;
-    padding: 5px 20px 100px 20px;
+    margin: 40px 40px;
+    padding: 5px 20px 10px 20px;
 }
 .quizName {
     text-align: center;
     font-size: 24px;
-    font-weight: 100;
+    font-weight: 500;
     margin-bottom: 5px;
 }
 .description {
     text-align: center;
-    font-size: 13px;
+    font-size: 16px;
     font-style: italic;
-    font-weight: 100;
-    margin-bottom: 10px;
+    font-weight: 300;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f00;
+}
+.timeLeft {
+    height: 10px;
+    background-color: #f00;
+    transition: .5s;
 }
 .questionNumber {
     font-size: 20px;
@@ -25,7 +31,7 @@
     font-size: 36px;
     font-weight: 700;
     border-bottom: 1px solid #ffffffef;
-    padding: 5px 10px;
+    padding: 30px 10px 0px 10px;
     margin-bottom: 15px;
 }
 .slideAway {
@@ -55,7 +61,9 @@
 }
 .answerOption:hover {
     transition: 0.1s;
-    background-color: #ffffff12;
+    border-bottom: 1px solid #ddd;
+    padding-left: 15px;
+
 }
 .answerOption.wrongAnswer {
     background-color: #ff555555;
@@ -76,11 +84,11 @@
 .resultLen {
     display: block;
     border-radius: 15px;
-    padding: 20px;
-    background-color: #2379e925;
+    padding: 0px 10px;
+    /* background-color: #2379e925; */
 }
 .resultLen div {
-    padding: 7px 0px;
+    padding: 5px 0px 5px 20px;
 }
 .bigText {
     font-size: 20px;
@@ -94,8 +102,14 @@ span.bigText {
     font-size: 30px;
     font-weight: 700;
 }
-.resultText {
-    font-size: 36px;
+div.resultText {
+    background-color: #f00;;
+    color: #fff;
+    border-left: 10px solid #000;
+    font-size: 40px;
     font-weight: 700;
-    text-align: center;
+    padding: 10px 10px 15px 15px;
+    margin: 10px 0px;
+    font-style: italic;
+    text-decoration: underline;
 }

@@ -16,9 +16,10 @@ class Quiz extends Component {
         correctAnswer: null,
         rightAnswer: null,
         wrongAnswers: [],
-        slideAway: ""
+        slideAway: "",
     }
     results = {};
+    timeOut;
 
     handleOptionClicked = (number) => {
         if (!this.results[this.state.qNum]) {
@@ -27,19 +28,7 @@ class Quiz extends Component {
             this.results[this.state.qNum].push(number)
         }
         if (number === this.state.correctAnswer) {
-            this.setState({
-                rightAnswer: number,
-                slideAway: "slideAway"
-            })
-            const timeDelay = setTimeout(() => {
-                this.setState({
-                    wrongAnswers: [],
-                    rightAnswer: null,
-                    slideAway: ""
-                })
-                this.updateQuestionData(this.state.quizData, this.state.qNum + 1);
-                return () => clearTimeout(timeDelay);
-            }, 850)
+            this.nextQuestion(number);
         } else {
             let wrongAnswers = [...this.state.wrongAnswers]
             wrongAnswers.push(number);
@@ -49,10 +38,51 @@ class Quiz extends Component {
         }
     }
 
+        nextQuestion = (number) => {
+            this.setState({
+                rightAnswer: number,
+                slideAway: "slideAway"
+            })
+            clearInterval(this.timeOut);
+            const timeDelay = setTimeout(() => {
+                this.setState({
+                    wrongAnswers: [],
+                    rightAnswer: null,
+                    slideAway: ""
+                })
+                this.updateQuestionData(this.state.quizData, this.state.qNum + 1);
+                return () => clearTimeout(timeDelay);
+            }, 850)
+        }
+    setTimeLeftForAnswer = () => {
+        this.timeOut = setInterval(() => {
+            const t = this.state.timeLeft;
+            console.log(t, this.state.timeForAnswer)
+            if (t > 0) { // t && 
+                this.setState({
+                    timeLeft: t - 1
+                })
+            } else {
+                clearInterval(this.timeOut);
+                this.nextQuestion();
+            }
+        }, 1000);
+    }
+
     updateQuestionData = (data, currQNum) => {
+        clearInterval(this.timeOut);
         if (data[`q${currQNum}`]) {
             const q = data[`q${currQNum}`];
+            let time;
+            if (q.timeForAnswer) {
+                time = q.timeForAnswer;
+            } else if (q.timeForEachAnswer) {
+                time = q.timeForEachAnswer;
+            }
+            this.setTimeLeftForAnswer(this.timeOut);
             this.setState({
+                timeForAnswer: time,
+                timeLeft: time,
                 questionText: q.questionText,
                 answerOptions: q.answerOptions,
                 correctAnswer: q.correctAnswer,
@@ -73,7 +103,8 @@ class Quiz extends Component {
             this.setState({
                 quizData: sn.quizData,
                 quizSummary: sn.summary,
-                description: sn.quizDescription
+                description: sn.quizDescription,
+                timeForEachAnswer: sn.timeForEachAnswer,
             })
             this.updateQuestionData(sn.quizData, this.state.qNum)
         })
@@ -87,21 +118,22 @@ class Quiz extends Component {
             maximumPoints += maxPoints;
             let points = maxPoints - this.results[key].length;
             finalResult += points;
-            return <div key={key}>pyt. {key}. - <span className={style.bigText}>{points} pkt.</span></div> 
+            return  <div key={key}>
+                        pyt. {key}. - <span className={style.bigText}>{points} pkt.</span> z {maxPoints} 
+                        <span className={style.smallText}>( {this.state.quizData[`q${key}`].questionText} )</span>
+                    </div> 
         })
         let percentageResult = Math.floor(finalResult / maximumPoints * 100)
         let resultMessage;
         Object.keys(this.state.quizSummary.resultMessages).forEach( grade => {
-            console.log(this.state.quizSummary.resultMessages[grade]);
             if (grade < percentageResult) {
                 resultMessage = this.state.quizSummary.resultMessages[grade];
             } 
             return grade > percentageResult;
         })
-        console.log(this.state.quizSummary)
         return ( <div className={style.resultLen}>
             <div className={style.resultText}>{resultMessage}</div>
-            <span className={style.bigText}>Zdobyte punkty: <span>{finalResult}</span> / {maximumPoints} max. czyli {percentageResult}%</span>
+            <span className={style.bigText}>Zdobyte punkty: <span>{finalResult}</span> z {maximumPoints}, czyli <span>{percentageResult}%</span></span>
             {results}
         </div>)
     }
@@ -121,7 +153,11 @@ class Quiz extends Component {
     render() {
 
         let name, description, topInfo, bottomInfo;
+        let timeLeftIndicator = 100;
 
+        if (this.state.timeLeft) {
+            timeLeftIndicator = this.state.timeLeft / this.state.timeForAnswer * 100;
+        }
         if (this.state.quizOn) {
 
             name = <div className={style.quizName}>{this.state.quizName}</div>;
@@ -156,6 +192,7 @@ class Quiz extends Component {
             <div className={style.Quiz}>
                 {name}
                 {description}
+                <div className={style.timeLeft} style={{width: `${timeLeftIndicator}%`}}></div>
                 <div className={style[this.state.slideAway]}>
                     {topInfo}
                     {bottomInfo}
@@ -166,3 +203,4 @@ class Quiz extends Component {
 }
  
 export default Quiz;
+
