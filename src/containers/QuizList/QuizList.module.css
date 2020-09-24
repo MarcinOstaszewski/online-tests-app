@@ -1,24 +1,28 @@
 .listElement {
-    margin: 5%;
+    margin: 50px;
 }
 .listElement a {
     text-decoration: none;
-    color: #ffffffcc;
+    color: #000;
     padding: 20px 10px 5px 10px;
-    border-bottom: 1px solid #ffffffdd;
+    border-bottom: 1px solid #f00;
     transition: all 0.25s;
-    max-width: 300px;
+    max-width: 600px;
     cursor: pointer;
     display: block;
 }
 .listElement a:hover {
-    color: #ffffff;
-    border-bottom: 1px solid #ffffff;
-    background-color: #ffffff08;
-    text-shadow: 0px 0px 2px #ffffffaa;
+    /* color: #111; */
+    border-bottom: 1px solid #a00;
+    background-color: #fdd;
+    border-radius: 0px 5px 0px 0px;
+    padding-left: 15px;
+    /* text-shadow: 0px 0px 2px #ffffffaa; */
 }
 h1 {
     font-size: 26px;
     font-weight: normal;
     margin: 10px 0px;
+    border-left: 15px solid #f00;
+    padding-left: 5px;
 }
