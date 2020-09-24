@@ -28,11 +28,9 @@ class QuizList extends Component {
                     pathname: `solve-quiz/`,
                     hash: `${q.replace(/ /g,'-')}`,
                 }} 
-                key={i}
-                // onClick={this.props.chooseQuiz}
-                
-                >Quiz {i + 1} - {q}</Link>
-                    } )
+                key={i}>
+                Quiz {i + 1} - {q}</Link>
+            })
         } 
 
         return ( <div className={style.listElement}>
