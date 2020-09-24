@@ -1,4 +1,5 @@
 const quiz0001 = {
+    // timeForEachAnswer: 40,
     quizName: "Co wiesz o Celice?",
     quizDescription: "Ten test sprawdzi Twoją wiedzę na temat historii rozwoju Toyoty Celiki.",
     quizData: { 
@@ -11,7 +12,8 @@ const quiz0001 = {
                 a3: "W maju 1980.",
                 a4: "W sierpniu 1967.",
             },
-            correctAnswer: 'a2'
+            correctAnswer: 'a2',
+            timeForAnswer: 7,
         },
         q2: {
             questionText: "W której generacji Celiki pojawiła się odmiana Celica Supra?",
@@ -21,7 +23,8 @@ const quiz0001 = {
                 a3: "II.",
                 a4: "V."
             },
-            correctAnswer: 'a3'
+            correctAnswer: 'a3',
+            timeForAnswer: 15,
         },
         q3: {
             questionText: "Ile kół powinna mieć Celica?",
@@ -31,7 +34,8 @@ const quiz0001 = {
                 a3: "8",
                 a4: "6"
             },
-            correctAnswer: 'a1'
+            correctAnswer: 'a1',
+            timeForAnswer: 5,
         },
         q4: {
             questionText: "Jaka jest pojemność silnika Celiki I generacji?",
@@ -41,7 +45,8 @@ const quiz0001 = {
                 a3: "1800 cc",
                 a4: "1600 cc",
             },
-            correctAnswer: 'a4'
+            correctAnswer: 'a4',
+            // timeForAnswer: 15,
         }
     },
     summary: {
