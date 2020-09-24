@@ -1,0 +1,40 @@
+.NewQuizForm {
+    margin: 10px 40px;
+    /* display: flex; */
+    /* justify-content: center; */
+    padding: 30px 20px 10px 20px;
+}
+form {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 400px;
+}
+.formField {
+    margin: 5px;
+}
+.formField label {
+    font-size: 14px;
+    display: block;
+    margin: 10px 0px 0px 0px;
+}
+.formField input {
+    line-height: 24px;
+    font-size: 18px;
+    min-width: 350px;
+    border: 0px;
+    border-bottom: 1px solid black;
+}
+.formField input:focus {
+    outline: none;
+    border-bottom: 1px solid green;
+}
+.submit {
+    margin: 20px 0px;
+    width: 100px;
+    border-radius: 10px;
+    background-color: #f00;
+    padding: 10px;
+}
