@@ -5,6 +5,7 @@ import QuizList from './containers/QuizList/QuizList';
 import Quiz from './containers/Quiz/Quiz';
 import Login from './components/Login/Login';
 import AddQuizData from './components/AddQuizData/AddQuizData';
+import NewQuizForm from './components/NewQuizForm/NewQuizForm';
 
 import { BrowserRouter, Route} from 'react-router-dom';
 
@@ -31,6 +32,7 @@ class App extends Component {
           <BrowserRouter>
             <Header displayName={this}/>
             <Route path="/add-quiz" component={AddQuizData} />
+            <Route path="/new-quiz" component={NewQuizForm} />
             <Route path="/solve-quiz" component={Quiz} />
             <Route path="/login" component={() => <Login handleLoginStatus={this.changeLoginStatus}/>} />
             <Route path="/" exact component={QuizList} />
