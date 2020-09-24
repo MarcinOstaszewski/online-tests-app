@@ -6,8 +6,9 @@ import style from  './Header.module.css'
 const Header = (props) => {
     return ( 
         <header className={style.header}>
-            <NavLink to="/">List of quizes</NavLink>
-            <NavLink to="/add-quiz">Add your own quiz</NavLink>
+            <NavLink to="/">Lista quizów</NavLink>
+            <NavLink to="/new-quiz">Nowy quiz</NavLink>
+            <NavLink to="/add-quiz">Quiz z pliku</NavLink>
             <NavLink to="/login">Login</NavLink>
             {/* <NavLink to={{
             pathname:'/solve-quiz',
