@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import InputField from '../../components/InputField/InputField';
 
 // import { fbDB } from '../../firebase';
 
@@ -17,47 +18,20 @@ class NewQuizForm extends Component {
         correctAnswerNumber: null
     }
 
-    formTopData = [
-        {
-            id: "quizName",
-            text: "Nazwa quizu",
-        },
-        { 
-            id: "quizDescription",
-            text: "Opis quizu",
-        },
-        {
-            id: "timeForEachAnswer",
-            text: "Czas na każdą z odpowiedzi",
-            type: "number",
-        },
-    ]
-    formQuestion = {
-        id: "questionText",
-        text: "Treść pytania",
-    }
-    howManyAnswers = {
-        id: "answerOptionsNumber",
-        text: "Ilość odpowiedzi do wyboru",
-        type : "number",
-        onChange : "handleChangeAnswerOptionsNumber"
-    }
-    createFormFields = (data, key) => {
-        let func = data.onChange ? data.onChange : "handleChange";
-        let type = data.type ? data.type : "text";
-        return (
-            <div className={style.formField} key={key}>
-                <label>
-                    {data.text}
-                    <input type={type} id={data.id}
-                        onChange={this[func]}
-                        value={this.state[data.id]}
-                    />
-                </label>
-            </div>
-        )
-
-    }
+    // createFormFields = (data, key) => {
+    //     let func = data.onChange ? data.onChange : "handleChange";
+    //     let type = data.type ? data.type : "text";
+    //     let width = "col-" + (data.width ? data.width : "12");
+    //     return (
+    //         <div className={style.formField} key={key}>
+    //             <label>
+    //                 {data.text}
+    //                 <input  type={type} id={data.id} value={this.state[data.id]}
+    //                         className={style[width]} onChange={this[func]} />
+    //             </label>
+    //         </div>
+    //     )
+    // }
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -101,46 +75,73 @@ class NewQuizForm extends Component {
         this.setState({correctAnswerNumber: parseInt(e.target.dataset.key)})
     }
 
-    render() { 
-        let quizTop = this.formTopData.map( (data, index) => {
-            return this.createFormFields(data, index);
-        })
-        let questionContent = this.createFormFields(this.formQuestion, 1)
-        let answersNumber = this.createFormFields(this.howManyAnswers, 2)
+    render() {
 
         let answersInputs = [];
         for (let i = 1; i <= this.state.answerOptionsNumber; i++ ) {
             let checked = (i === this.state.correctAnswerNumber) ? true : false;
             console.log(checked)
             answersInputs.push(
-                <label key={i}>Odpowiedź {i}. 
-                    <input  type="text"
-                            data-key={i} 
-                            value={this.state.answerOptionsTexts[i]}
-                            onChange={this.handleAnswerOptionChange} />
-                    <input  type="checkbox" 
-                            checked={checked}
-                            data-key={i}
-                            onChange={this.handleCorrectAnswerChange}
-                    />
-                </label>
+                <div key={i}>
+                    <InputField id="sendQuizDescription"
+                                text="Odpowiedź"
+                                type="text"
+                                width="4"
+                                onChange={this.handleAnswerOptionChange}
+                                />
+                    <InputField id="sendQuizDescription"
+                                text="Dobra odp."
+                                type="checkbox"
+                                width="4"
+                                onChange={this.handleAnswerOptionChange}
+                                />
+                </div>
             )
         }
+        // {/* <div className={style.formField} key={i}>
+        //     <label>Odpowiedź {i}.
+        //         <div className={style.row}>
+        //             <input  type="text"
+        //                     data-key={i} 
+        //                     value={this.state.answerOptionsTexts[i]}
+        //                     onChange={this.handleAnswerOptionChange} />
+        //             <input  type="checkbox" 
+        //                     checked={checked}
+        //                     data-key={i}
+        //                     onChange={this.handleCorrectAnswerChange}/>
+        //         </div>
+        //     </label>
+        // </div> */}
 
         console.log(this.state)
         return ( 
             <div className={style.NewQuizForm}>
                 <form onSubmit={this.handleSubmit} className={style.form}>
+                    <p>Podaj nazwę i opis quizu oraz czas na odpowiedź (0 = nieograniczony).</p>
+                    <div className="row">
+                        <InputField id="quizName" text="Nazwa quizu" />
+                        <InputField id="quizDescription" text="Opis quizu" />
+                        <InputField id="timeForEachAnswer" text="Czas na każdą z odpowiedzi" width="4"/>
+                        <InputField id="howManyQuestions" text="Ilość pytań" type="number" width="4"/>
+                        <InputField id="sendQuizDescription"
+                                    // text="."
+                                    type="submit"
+                                    width="4"/>
+                    </div>
 
-                    {quizTop}
 
-                    <div>Pytanie nr<span id="questionNumber"></span></div>
+                    <div id="questionForm">
+                        <div>Pytanie nr<span id="questionNumber">{this.state.questionNumber}</span></div>
+                        <InputField id="questionText"
+                                    text="Treść pytania"/>
+                        <InputField id="answerOptionsNumber"
+                                    text="Ilość odpowiedzi do wyboru"
+                                    type="number"
+                                    onChange={this.handleChangeAnswerOptionsNumber}/>
+                        {answersInputs}
+                        <input className={style.submit} type="submit" value="Zapisz pytanie"/>
+                    </div>
 
-                    {questionContent}
-                    {answersNumber}
-                    {answersInputs}
-
-                    <input className={style.submit} type="submit" value="Wyślij"/>
                 </form>
             </div>
         );
