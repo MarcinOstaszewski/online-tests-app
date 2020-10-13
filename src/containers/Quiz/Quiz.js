@@ -6,9 +6,9 @@ import style from './Quiz.module.css';
 
 class Quiz extends Component {
     state = {
-        quizOn: true,
+        quizFinished: false,
         quizName: this.props.location.hash.replace('#', '').replace(/-/g, ' '),
-        qNum: 1,
+        questionNum: 0,
         quizData: null,
         quizSummary: null,
         questionText: null,
@@ -16,19 +16,23 @@ class Quiz extends Component {
         correctAnswer: null,
         rightAnswer: null,
         wrongAnswers: [],
-        slideAway: "",
+        animateOut: "",
     }
     results = {};
-    timeOut;
+    timeLeftForAnswer;
+
+    addChosenNumToResults = (number) => {
+        if (!this.results[this.state.questionNum]) {
+            this.results[this.state.questionNum] = [];
+        } else {
+            this.results[this.state.questionNum].push(number)
+        }
+    }
 
     handleOptionClicked = (number) => {
-        if (!this.results[this.state.qNum]) {
-            this.results[this.state.qNum] = [];
-        } else {
-            this.results[this.state.qNum].push(number)
-        }
+        this.addChosenNumToResults(number);
         if (number === this.state.correctAnswer) {
-            this.nextQuestion(number);
+            this.showNextQuestion(number);
         } else {
             let wrongAnswers = [...this.state.wrongAnswers]
             wrongAnswers.push(number);
@@ -38,76 +42,87 @@ class Quiz extends Component {
         }
     }
 
-        nextQuestion = (number) => {
+    showNextQuestion = (number) => {
+        this.setState({
+            rightAnswer: number,
+            animateOut: "slideAway"
+        })
+        clearInterval(this.timeLeftForAnswer);
+        const animationDelay = setTimeout(() => {
             this.setState({
-                rightAnswer: number,
-                slideAway: "slideAway"
+                wrongAnswers: [],
+                rightAnswer: null,
+                animateOut: ""
             })
-            clearInterval(this.timeOut);
-            const timeDelay = setTimeout(() => {
-                this.setState({
-                    wrongAnswers: [],
-                    rightAnswer: null,
-                    slideAway: ""
-                })
-                this.updateQuestionData(this.state.quizData, this.state.qNum + 1);
-                return () => clearTimeout(timeDelay);
-            }, 850)
-        }
+            if (this.isNextQuestion()) {
+                this.updateQuestionData();
+            } else {
+                this.setState({ quizFinished: true })
+            }
+            return () => clearTimeout(animationDelay);
+        }, 1500)
+    }
+
+    isNextQuestion = () => this.state.quizData[`q${this.state.questionNum + 1}`];
+
+    addOnlyWrongAnswers = () => {
+        console.log(Object.keys(this.state.answerOptions))
+        this.results[this.state.questionNum] = Object.keys(this.state.answerOptions).map((el, i) => {
+            return i;
+        })
+    }
+
     setTimeLeftForAnswer = () => {
-        this.timeOut = setInterval(() => {
+        this.timeLeftForAnswer = setInterval(() => {
             const t = this.state.timeLeft;
             console.log(t, this.state.timeForAnswer)
-            if (t > 0) { // t && 
-                this.setState({
-                    timeLeft: t - 1
-                })
+            if (t > 0) {
+                this.setState({ timeLeft: t - 1 })
             } else {
-                clearInterval(this.timeOut);
-                this.nextQuestion();
+                // DODAÆ
+                this.addOnlyWrongAnswers();
+                this.showNextQuestion();
             }
         }, 1000);
     }
 
-    updateQuestionData = (data, currQNum) => {
-        clearInterval(this.timeOut);
-        if (data[`q${currQNum}`]) {
-            const q = data[`q${currQNum}`];
-            let time;
-            if (q.timeForAnswer) {
-                time = q.timeForAnswer;
-            } else if (q.timeForEachAnswer) {
-                time = q.timeForEachAnswer;
-            }
-            this.setTimeLeftForAnswer(this.timeOut);
-            this.setState({
-                timeForAnswer: time,
-                timeLeft: time,
-                questionText: q.questionText,
-                answerOptions: q.answerOptions,
-                correctAnswer: q.correctAnswer,
-                qNum: currQNum,
-            })
-        } else {
-            this.setState({
-                quizOn: false
-            })
+    updateQuestionData = () => {
+        const nextQuestionNum = this.state.questionNum + 1;
+        const q = this.state.quizData[`q${nextQuestionNum}`];
+        let time;
+        if (q.timeForAnswer) {
+            time = q.timeForAnswer;
+        } else if (q.timeForEachAnswer) {
+            time = q.timeForEachAnswer;
         }
+        this.setTimeLeftForAnswer(this.timeLeftForAnswer);
+        this.setState({
+            timeForAnswer: time,
+            timeLeft: time,
+            questionText: q.questionText,
+            answerOptions: q.answerOptions,
+            correctAnswer: q.correctAnswer,
+            questionNum: nextQuestionNum,
+        })
     }
 
     getQuizData = () => {
         fbDB.ref(`quizGroups/basicQuizes/data/${this.state.quizName}`)
         .once('value').then( snap => {
-            const sn = snap.val()
-            console.log(sn)
+            const snapshotValue = snap.val()
+            console.log(snapshotValue)
             this.setState({
-                quizData: sn.quizData,
-                quizSummary: sn.summary,
-                description: sn.quizDescription,
-                timeForEachAnswer: sn.timeForEachAnswer,
+                quizData: snapshotValue.quizData,
+                quizSummary: snapshotValue.summary,
+                description: snapshotValue.quizDescription,
+                timeForEachAnswer: snapshotValue.timeForEachAnswer,
             })
-            this.updateQuestionData(sn.quizData, this.state.qNum)
+            console.log(this.state.quizData);
         })
+    }
+
+    handleQuizzStarted = () => {
+        this.updateQuestionData(this.state.quizData, this.state.questionNum)
     }
 
     countFinalResults = () => {
@@ -155,16 +170,21 @@ class Quiz extends Component {
         let name, description, topInfo, bottomInfo;
         let timeLeftIndicator = 100;
 
-        if (this.state.timeLeft) {
+        if (this.state.timeLeft >= 0) {
             timeLeftIndicator = this.state.timeLeft / this.state.timeForAnswer * 100;
         }
-        if (this.state.quizOn) {
+        if (!this.state.quizFinished) {
 
             name = <div className={style.quizName}>{this.state.quizName}</div>;
             description = <div className={style.description}>{this.state.description}</div>;
-            topInfo =   <div className={style.question}>
-                            <span className={style.questionNumber}>{this.state.qNum}.</span> {this.state.questionText}
+
+            if (this.state.questionNum) {
+                topInfo =   <div className={style.question}>
+                            <span className={style.questionNumber}>{this.state.questionNum}.</span> {this.state.questionText}
                         </div>
+            } else {
+                topInfo = <div className={style.startButton}><span onClick={this.handleQuizzStarted}>JESTEM GOTOWY</span></div>
+            }
 
             if (this.state.questionText != null && this.state.answerOptions != null) {
                 bottomInfo = Object.keys(this.state.answerOptions).map( (key, i) => {
@@ -193,7 +213,7 @@ class Quiz extends Component {
                 {name}
                 {description}
                 <div className={style.timeLeft} style={{width: `${timeLeftIndicator}%`}}></div>
-                <div className={style[this.state.slideAway]}>
+                <div className={style[this.state.animateOut]}>
                     {topInfo}
                     {bottomInfo}
                 </div>
@@ -203,4 +223,3 @@ class Quiz extends Component {
 }
  
 export default Quiz;
-
