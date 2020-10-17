@@ -1,0 +1,30 @@
+.row {
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%;
+}
+
+@mixin grid-generator($grid-columns) {
+    @for $i from 1 through $grid-columns {
+        .col-#{$i} {
+            width: percentage($i / $grid-columns);
+            // float: left;
+        }
+    }
+}
+@include grid-generator(12);
+
+@mixin headers-generator() {
+    @for $i from 1 through 6 {
+        h#{$i} {
+            font-size: 28 - $i * 2px;
+            margin-top: 16 - $i *2px;
+            margin-bottom: 2px;
+        }
+    }
+}
+@include headers-generator();
+
+p {
+    margin: 5px 0px;
+}

@@ -10,7 +10,7 @@ import NewQuizForm from './components/NewQuizForm/NewQuizForm';
 import { BrowserRouter, Route} from 'react-router-dom';
 
 
-import './App.css';
+import './App.scss';
 
 class App extends Component {
 
