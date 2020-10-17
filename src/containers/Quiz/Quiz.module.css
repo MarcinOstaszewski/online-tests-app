@@ -105,15 +105,15 @@
     padding: 5px 0px 5px 20px;
 }
 .bigText {
-    font-size: 20px;
-    font-weight: 500;
+    font-size: 24px;
+    font-weight: 700;
 }
 span.bigText {
     border-bottom: 1px solid #ffffff88;
     padding-bottom: 2px;
 }
 .bigText span {
-    font-size: 30px;
+    font-size: 36px;
     font-weight: 700;
 }
 div.resultText {

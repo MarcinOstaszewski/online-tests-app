@@ -60,7 +60,7 @@ class Quiz extends Component {
                 this.setState({ quizFinished: true })
             }
             return () => clearTimeout(animationDelay);
-        }, 1500)
+        }, 1100)
     }
 
     isNextQuestion = () => this.state.quizData[`q${this.state.questionNum + 1}`];
@@ -72,18 +72,20 @@ class Quiz extends Component {
         })
     }
 
-    setTimeLeftForAnswer = () => {
-        this.timeLeftForAnswer = setInterval(() => {
-            const t = this.state.timeLeft;
-            console.log(t, this.state.timeForAnswer)
-            if (t > 0) {
-                this.setState({ timeLeft: t - 1 })
-            } else {
-                // DODAÆ
-                this.addOnlyWrongAnswers();
-                this.showNextQuestion();
-            }
-        }, 1000);
+    setTimeLeftForAnswer = (time) => {
+        console.log(time);
+        if (time > 0) {
+            this.timeLeftForAnswer = setInterval(() => {
+                const t = this.state.timeLeft;
+                console.log(t, time, this.timeLeftForAnswer)
+                if (t > 0) {
+                    this.setState({ timeLeft: t - 1 })
+                } else {
+                    this.addOnlyWrongAnswers();
+                    this.showNextQuestion();
+                }
+            }, 1000);
+        }
     }
 
     updateQuestionData = () => {
@@ -95,7 +97,6 @@ class Quiz extends Component {
         } else if (q.timeForEachAnswer) {
             time = q.timeForEachAnswer;
         }
-        this.setTimeLeftForAnswer(this.timeLeftForAnswer);
         this.setState({
             timeForAnswer: time,
             timeLeft: time,
@@ -104,6 +105,7 @@ class Quiz extends Component {
             correctAnswer: q.correctAnswer,
             questionNum: nextQuestionNum,
         })
+        this.setTimeLeftForAnswer(time);
     }
 
     getQuizData = () => {
@@ -134,8 +136,9 @@ class Quiz extends Component {
             let points = maxPoints - this.results[key].length;
             finalResult += points;
             return  <div key={key}>
-                        pyt. {key}. - <span className={style.bigText}>{points} pkt.</span> z {maxPoints} 
-                        <span className={style.smallText}>( {this.state.quizData[`q${key}`].questionText} )</span>
+                        pytanie {key}. - <span className={style.bigText}>
+                        {points} pkt.</span> z {maxPoints}
+                        <span className={style.smallText}> ( {this.state.quizData[`q${key}`].questionText} )</span>
                     </div> 
         })
         let percentageResult = Math.floor(finalResult / maximumPoints * 100)
@@ -179,11 +182,11 @@ class Quiz extends Component {
             description = <div className={style.description}>{this.state.description}</div>;
 
             if (this.state.questionNum) {
-                topInfo =   <div className={style.question}>
+                topInfo = <div className={style.question}>
                             <span className={style.questionNumber}>{this.state.questionNum}.</span> {this.state.questionText}
                         </div>
             } else {
-                topInfo = <div className={style.startButton}><span onClick={this.handleQuizzStarted}>JESTEM GOTOWY</span></div>
+                topInfo = <div className={style.startButton}><span onClick={this.handleQuizzStarted}>ZACZYNAMY</span></div>
             }
 
             if (this.state.questionText != null && this.state.answerOptions != null) {
