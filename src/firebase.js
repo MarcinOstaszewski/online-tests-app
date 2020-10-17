@@ -17,8 +17,15 @@ const fbDB = firebase.database()
 
 const googleAuth = new auth.GoogleAuthProvider();
 
+const addNewQuizData = (data) => {
+    const name = data.quizName
+    fbDB.ref(`quizGroups/basicQuizes/data/${name}`).set(data);
+    fbDB.ref(`quizGroups/basicQuizes/names/${name}`).set(true);
+}
+
 export {
     fbDB,
     firebase,
     googleAuth,
+    addNewQuizData
 };
