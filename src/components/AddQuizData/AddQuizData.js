@@ -1,18 +1,14 @@
 import React from 'react';
-import { fbDB } from '../../firebase';
-import { quiz0001 } from '../../consts'
+import { addNewQuizData } from '../../firebase';
+import { quiz0001 } from '../../consts';
 
-const addQuizToDB = (quizData) => {
-    const quizName = quizData.quizName
-    fbDB.ref(`quizGroups/basicQuizes/data/${quizName}`).set(quizData)
-    fbDB.ref(`quizGroups/basicQuizes/names/${quizName}`).set(true)
-}
+import style from './AddQuizData.module.css'
 
 const AddQuizData = () => {
     
-    addQuizToDB(quiz0001)
+    addNewQuizData(quiz0001)
 
-    return ( <div style={{cursor: 'pointer'}}>ADD QUIZ</div> );
+    return ( <div className={style.addButton}>DODAJ QUIZ Z DANYCH TESTOWYCH</div> );
 }
  
 export default AddQuizData;
