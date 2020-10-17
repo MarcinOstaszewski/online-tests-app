@@ -1,0 +1,93 @@
+.formField {
+    margin: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+}
+.formField input {
+    display: block;
+    width: calc(100% - 45px);
+    margin-top: 2px;
+    }
+.formField label {
+    line-height: 13px;
+    font-size: 10px;
+    display: block;
+    margin: 10px 0px 0px 0px;
+    transition: .4s;
+}
+.formField label:focus-within {
+    line-height: 13px;
+    font-size: 13px;
+    transition: .4s;
+}
+.formField input {
+    line-height: 24px;
+    font-size: 18px;
+    border: 0px;
+    border-bottom: 1px solid #bbb;
+}
+.formField label input[type="submit"] {
+    margin-top: 6px;
+    background-color: #ddd;
+    cursor: pointer;
+}
+/* RADIO BUTTONS */
+.answerRadio {
+    display: block;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+}
+.answerRadio input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+.checkmark {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    height: 24px;
+    width: 24px;
+    background-color: #fff;
+    border: 1px solid #bbb;
+    border-radius: 50%;
+}
+.answerRadio:hover input ~ .checkmark {
+    background-color: #bbb;
+}
+.answerRadio input:checked ~ .checkmark {
+    background-color: #f00;
+}
+.checkmark:after {
+    content: '';
+    position: absolute;
+    display: none;
+}
+.answerRadio input:checked ~ .checkmark:after {
+    display: block;
+}
+.answerRadio .checkmark:after {
+    top: 4px;
+    left: 4px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #fff;
+}
+
+.formField input:focus {
+    outline: none;
+    border-bottom: 1px solid #f00;
+}
+.submit {
+    margin: 15px 0px;
+    border: 0px;
+    border-radius: 4px;
+    background-color: #000;
+    color: #fff;
+    padding: 15px;
+    font-weight: bold;
+}
