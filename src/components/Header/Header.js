@@ -7,9 +7,10 @@ const Header = (props) => {
     return ( 
         <header className={style.header}>
             <NavLink to="/">Lista quizów</NavLink>
-            <NavLink to="/new-quiz">Nowy quiz</NavLink>
+            <NavLink to="/new-quiz">Stwórz quiz</NavLink>
             <NavLink to="/add-quiz">Quiz z pliku</NavLink>
             <NavLink to="/login">Login</NavLink>
+            
             {/* <NavLink to={{
             pathname:'/solve-quiz',
             search:'?quizName=""',
