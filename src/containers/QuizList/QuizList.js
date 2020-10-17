@@ -11,7 +11,6 @@ class QuizList extends Component {
     componentDidMount() {
         fbDB.ref('quizGroups/basicQuizes/names').once('value').then(snap => {
             const quizes = Object.keys(snap.val())
-            console.log(quizes)
             this.setState({
                 quizes: quizes
             })
