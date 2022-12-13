@@ -11,7 +11,7 @@
     "bootstrap": "^4.5.2",
     "concurrently": "^5.3.0",
     "domexception": "^2.0.1",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "firebase": "^7.23.0",
     "firebase-auth": "^0.1.2",
     "node-fetch": "^3.0.0-beta.9",
